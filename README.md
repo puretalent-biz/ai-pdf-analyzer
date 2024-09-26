@@ -3,7 +3,7 @@
 Ce projet est une application web utilisant Laravel 10 pour le backend et React 18 pour le frontend. Il permet de recevoir des fichiers de type PDF, DOCX ou TXT et de les analyser en utilisant un assistant basé sur GPT-4.
 
 ## Article complet sur Medium
-- https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd
+- <a href="https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd" targe="_blank">https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question</a>
 
 ## Prérequis
 
@@ -63,8 +63,9 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 Pour créer un build de production de l'application React, exécutez la commande suivante :
 
-```bash
-npm run build
+    ```bash
+    npm run build
+    ```
 
 Les fichiers de build seront générés dans le répertoire public/js de votre projet Laravel.
 
