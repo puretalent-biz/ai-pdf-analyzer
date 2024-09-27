@@ -167,10 +167,10 @@ function Home() {
                 )}
                 <p className="text-gray-700 mt-16 mb-12">The program uses <strong>php 8.2, Laravel 10.48 and React 18.3</strong> to send the file as an attachment<br />and the message to the <strong>OpenAI API (gpt-4-turbo)</strong> to get the response.</p>
                 <h3 class="font-semibold">
-                    <a href="" className="text-blue-500 underline">GitHub repository: OpenAI File Assistant with Laravel and React</a>
+                    <a href="https://github.com/puretalent-biz/ai-pdf-analyzer?tab=readme-ov-file" target="_blank" className="text-blue-500 underline">GitHub repository: OpenAI File Assistant with Laravel and React</a>
                 </h3>
                 <h3 class="font-semibold">
-                    <a href="" className="text-blue-500 underline">See the tutorial on Medium for more information.</a>
+                    <a href="https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd" target="_blank" className="text-blue-500 underline">See the tutorial on Medium for more information.</a>
                 </h3>
             </div>
         </div>
