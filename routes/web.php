@@ -8,3 +8,6 @@ Route::get('/', function () {
 });
 
 Route::post('/submit-message', [AssistantController::class, 'submitMessage']);
+
+Route::get('/delete-all-assistants', [AssistantController::class, 'deleteAllAssistants']);
+Route::get('/delete-all-files', [AssistantController::class, 'deleteAllFiles']);

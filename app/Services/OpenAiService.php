@@ -26,6 +26,60 @@ class OpenAiService
     }
 
     /**
+     * Delete the assistant by its ID.
+     * @param string $assistant_id The ID of the assistant to delete.
+     * @return bool True if the deletion was successful, false otherwise.
+     */
+    public function deleteAssistant($assistant_id)
+    {
+        try {
+            $client = new Client;
+            $response = $client->delete('https://api.openai.com/v1/assistants/' . $assistant_id, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->api_key,
+                    'Content-Type' => 'application/json',
+                    'OpenAI-Beta' => 'assistants=v2'
+                ]
+            ]);
+
+            Log::info('Assistant deleted: ', ['assistant_id' => $assistant_id]);
+            return true;
+        } catch (Exception $e) {
+            Log::error('Error deleting assistant: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * List all assistants.
+     * @return array|false An array of assistants, or false if an error occurred.
+     */
+    public function listAssistants()
+    {
+        try {
+            $client = new Client;
+            $response = $client->get('https://api.openai.com/v1/assistants', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->api_key,
+                    'Content-Type' => 'application/json',
+                    'OpenAI-Beta' => 'assistants=v2'
+                ]
+            ]);
+
+            $response_json = json_decode($response->getBody());
+            
+            Log::info('Assistants list: ', (array) $response_json->data);
+
+            // Assuming the response contains a 'data' field with the list of assistants.
+            return $response_json->data; 
+
+        } catch (Exception $e) {
+            Log::error('Error listing assistants: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Create an assistant.
      * @param string $file_id The ID of the file.
      * @return string|false The ID of the assistant, or false if an error occurred.
@@ -261,6 +315,58 @@ class OpenAiService
 
             return $response_json->id;
         } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * List all files in the OpenAI storage.
+     * @return array|false An array of files, or false if an error occurred.
+     */
+    public function listAllFiles()
+    {
+        try {
+            $client = new Client;
+            $response = $client->get('https://api.openai.com/v1/files', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->api_key,
+                ]
+            ]);
+
+            $response_json = json_decode($response->getBody());
+            Log::info('Files list: ', (array) $response_json->data);
+
+            return $response_json->data; // Assuming the response contains a 'data' field with the list of files.
+        } catch (Exception $e) {
+            Log::error('Error listing files: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete a file in the OpenAI storage.
+     * @param string $file_id The ID of the file to delete.
+     * @return bool True if the file was successfully deleted, false otherwise.
+     */
+    public function deleteFile($file_id)
+    {
+        try {
+            $client = new Client;
+            $response = $client->delete('https://api.openai.com/v1/files/' . $file_id, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->api_key,
+                ]
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+                Log::info("File {$file_id} deleted successfully.");
+                return true;
+            } else {
+                Log::warning("Failed to delete file {$file_id}");
+                return false;
+            }
+        } catch (Exception $e) {
+            Log::error('Error deleting file: ' . $e->getMessage());
             return false;
         }
     }

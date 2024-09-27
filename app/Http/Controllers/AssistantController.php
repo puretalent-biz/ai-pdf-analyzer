@@ -54,6 +54,9 @@ class AssistantController extends Controller
                     $extractedText = $response->data[0]->content[0]->text->value;
                     $answer = Str::markdown($extractedText);
                 }
+
+                $openAiService->deleteAssistant($assistant_id);
+                $openAiService->deleteFile($file_id);
             }
 
             return response()->json([
@@ -65,5 +68,41 @@ class AssistantController extends Controller
                 'error' => true
             ]);
         }
+    }
+
+    /**
+     * Get and Delete all assistants.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAllAssistants()
+    {
+        $openAiService = new OpenAiService('gpt-4-turbo');
+        $assistants = $openAiService->listAssistants();
+
+        foreach ($assistants as $assistant) {
+            $openAiService->deleteAssistant($assistant->id);
+        }
+
+        return response()->json([
+            'assistants' => $assistants
+        ]);
+    }
+
+    /**
+     * Get and Delete all files.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAllFiles()
+    {
+        $openAiService = new OpenAiService('gpt-4-turbo');
+        $files = $openAiService->listAllFiles();
+
+        foreach ($files as $file) {
+            $openAiService->deleteFile($file->id);
+        }
+
+        return response()->json([
+            'files' => $files
+        ]);
     }
 }
