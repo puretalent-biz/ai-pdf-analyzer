@@ -19,7 +19,7 @@ class AssistantController extends Controller
         try {
             $validatedData = $request->validate([
                 'message' => 'required|string|min:5|max:300',
-                'file' => 'required|file|mimetypes:text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                'file' => 'required|file|mimetypes:text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document|max:3048'
             ]);
         } catch (ValidationException $e) {
             return response()->json([
