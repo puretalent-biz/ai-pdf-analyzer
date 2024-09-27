@@ -3,7 +3,7 @@
 Ce projet est une application web utilisant Laravel 10 pour le backend et React 18 pour le frontend. Il permet de recevoir des fichiers de type PDF, DOCX ou TXT et de les analyser en utilisant un assistant basé sur GPT-4.
 
 ## Article complet sur Medium
-- <a href="https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd" targe="_blank">https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question</a>
+- <a href="https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd" targe="_blank">https://medium.com/@r.alexandre/laravel-10-react-18-openai-envoyer-un-fichier-pdf-et-poser-votre-question-b910e4e819cd</a>
 
 ## Prérequis
 
@@ -11,14 +11,14 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 - [PHP 8.1+](https://www.php.net/downloads)
 - [Composer](https://getcomposer.org/download/)
-- [Node.js 14+ et npm](https://nodejs.org/en/download/)
+- [Node.js 20+ et npm](https://nodejs.org/en/download/)
 
 ## Installation
 
 1. Clonez le dépôt du projet :
 
     ```bash
-    git clone git@github.com:puretalent-biz/ai-pdf-analyzer.git
+    git clone https://github.com/puretalent-biz/ai-pdf-analyzer.git
     cd ai-pdf-analyzer
     ```
 
@@ -26,13 +26,16 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
     ```bash
     composer install
+    composer update
     ```
 
-3. Installez les dépendances JavaScript avec npm :
+3. Installez les dépendances JavaScript avec npm (seulement en local) :
 
     ```bash
     npm install
     ```
+
+    Attention: node >= 20 doit être installé
 
 4. Copiez le fichier `.env.example` en `.env` et configurez vos variables d'environnement :
 
@@ -41,6 +44,19 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
     ```
 
     Modifiez le fichier `.env` pour configurer votre clé API.
+
+    ```bash
+    php artisan storage:link
+    php artisan key:generate
+    php artisan optimize
+    ```
+
+5. Donner les droits nécessaires sur un serveur Linux
+
+    ```bash
+    sudo chown -R $USER:www-data storage bootstrap/cache
+    sudo chmod -R 775 storage bootstrap/cache
+    ```
 
 
 ## Mise en route en local
@@ -61,7 +77,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 ## Build de production
 
-Pour créer un build de production de l'application React, exécutez la commande suivante :
+1. Pour créer un build de production de l'application React, exécutez la commande suivante :
 
     ```bash
     npm run build
