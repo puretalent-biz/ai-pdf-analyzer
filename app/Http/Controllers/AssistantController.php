@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use App\Services\OpenAiService;
 
 
@@ -15,15 +16,23 @@ class AssistantController extends Controller
      */
     public function submitMessage(Request $request)
     {
-        $validatedData = $request->validate([
-            'message' => 'required|string|min:5|max:300',
-            'file' => 'required|file|mimes:pdf,docx,txt|max:3048'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'message' => 'required|string|min:5|max:300',
+                'file' => 'required|file|mimetypes:text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => true,
+                'messages' => $e->errors()
+            ], 422);
+        }
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filePath = $file->getPathName();
             $fileExtension = $file->getClientOriginalExtension();
+            $mimieType = $file->getMimeType();
 
             $openAiService = new OpenAiService('gpt-4-turbo', $fileExtension);
             $file_id = $openAiService->uploadFile($filePath);
@@ -53,8 +62,7 @@ class AssistantController extends Controller
             ]);
         } else {
             return response()->json([
-                'error' => true,
-                'data' => $validatedData
+                'error' => true
             ]);
         }
     }

@@ -64,10 +64,10 @@ function Home() {
             if (response.ok) {
                 setResult(data.answer);
                 Swal.close();
-                setMessage("");
-                setFile(null);
-                setFileLabel("Choose a file");
-                setCharCount(0);
+                //setMessage("");
+                //setFile(null);
+                //setFileLabel("Choose a file");
+                //setCharCount(0);
             } else {
                 Swal.fire({
                     icon: 'error',
